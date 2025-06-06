@@ -1,0 +1,250 @@
+2025-05-31 16:16:18,837 - INFO - ==================================================
+2025-05-31 16:16:18,837 - INFO - MEMULAI PROSES PYTHON ENGINE
+2025-05-31 16:16:18,837 - INFO - Arguments: ['main.py', 'C:\\contoh_file.xlsx', 'C:\\output.txt', 'Test prompt', 'excel', 'file']
+2025-05-31 16:16:18,837 - INFO - ==================================================
+2025-05-31 16:16:18,837 - INFO - Parameter yang diterima:
+2025-05-31 16:16:18,837 - INFO -   File path: C:\contoh_file.xlsx
+2025-05-31 16:16:18,838 - INFO -   Output text path: C:\output.txt
+2025-05-31 16:16:18,838 - INFO -   User prompt: Test prompt... (panjang: 11)
+2025-05-31 16:16:18,839 - INFO -   Output format: excel
+2025-05-31 16:16:18,839 - INFO -   Mode: file
+2025-05-31 16:16:18,839 - INFO - Mode: file - Memproses file input
+2025-05-31 16:16:18,840 - DEBUG - Konten yang diekstrak (100 karakter pertama): [GAGAL] Gagal membaca file: [Errno 2] No such file or directory: 'C:\\contoh_file.xlsx'...
+2025-05-31 16:16:18,840 - INFO - Memulai analisis dengan Gemini API...
+2025-05-31 16:16:18,844 - DEBUG - Starting new HTTPS connection (1): generativelanguage.googleapis.com:443
+2025-05-31 16:16:19,908 - DEBUG - https://generativelanguage.googleapis.com:443 "POST /v1beta/models/gemini-1.5-flash:generateContent?key=AIzaSyDBwcbcNsCxw2zN4JFm312N-CLikeVdC80 HTTP/1.1" 200 None
+2025-05-31 16:16:19,909 - DEBUG - Hasil analisis Gemini (100 karakter pertama): | Kolom1 | Kolom2 |
+|---|---|
+|  |  |
+...
+2025-05-31 16:16:19,909 - DEBUG - Panjang hasil analisis: 38 karakter
+2025-05-31 16:16:19,910 - INFO - Menyimpan hasil sementara ke C:\output.txt
+2025-05-31 16:16:19,910 - ERROR - ERROR TIDAK TERDUGA: [Errno 13] Permission denied: 'C:\\output.txt'
+2025-05-31 16:16:19,913 - ERROR - Traceback (most recent call last):
+  File "C:\Project PBTGM\PythonEngine\main.py", line 178, in main
+    save_output(result_text, output_txt_path)
+    ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Project PBTGM\PythonEngine\output_writer.py", line 14, in save_output
+    with open(output_txt_path, 'w', encoding='utf-8') as f:
+         ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+PermissionError: [Errno 13] Permission denied: 'C:\\output.txt'
+
+2025-05-31 16:16:19,913 - INFO - Proses selesai dalam 1.08 detik
+2025-05-31 16:16:19,913 - INFO - ==================================================
+2025-05-31 16:36:35,306 - INFO - ==================================================
+2025-05-31 16:36:35,306 - INFO - MEMULAI PROSES PYTHON ENGINE
+2025-05-31 16:36:35,306 - INFO - Arguments: ['C:\\Project PBTGM\\PythonEngine\\main.py', 'C:\\DataSample\\Data_Penjualan_Mobil.xlsx', 'C:\\DataSample\\output.txt', 'Test prompt', 'excel', 'file']
+2025-05-31 16:36:35,306 - INFO - ==================================================
+2025-05-31 16:36:35,306 - INFO - Parameter yang diterima:
+2025-05-31 16:36:35,307 - INFO -   File path: C:\DataSample\Data_Penjualan_Mobil.xlsx
+2025-05-31 16:36:35,307 - INFO -   Output text path: C:\DataSample\output.txt
+2025-05-31 16:36:35,307 - INFO -   User prompt: Test prompt... (panjang: 11)
+2025-05-31 16:36:35,307 - INFO -   Output format: excel
+2025-05-31 16:36:35,307 - INFO -   Mode: file
+2025-05-31 16:36:35,307 - INFO - Mode: file - Memproses file input
+2025-05-31 16:36:35,365 - DEBUG - Konten yang diekstrak (100 karakter pertama):    Tanggal      Merek   Model  Harga (IDR) Sales     Kota
+2024-03-21     Suzuki  Ertiga    333630402...
+2025-05-31 16:36:35,365 - INFO - Memulai analisis dengan Gemini API...
+2025-05-31 16:36:35,368 - DEBUG - Starting new HTTPS connection (1): generativelanguage.googleapis.com:443
+2025-05-31 16:36:45,192 - DEBUG - https://generativelanguage.googleapis.com:443 "POST /v1beta/models/gemini-1.5-flash:generateContent?key=AIzaSyDBwcbcNsCxw2zN4JFm312N-CLikeVdC80 HTTP/1.1" 200 None
+2025-05-31 16:36:45,194 - DEBUG - Hasil analisis Gemini (100 karakter pertama): | Tanggal      | Merek      | Model    | Harga (IDR) | Sales | Kota     |
+|--------------|----------...
+2025-05-31 16:36:45,194 - DEBUG - Panjang hasil analisis: 2400 karakter
+2025-05-31 16:36:45,194 - INFO - Menyimpan hasil sementara ke C:\DataSample\output.txt
+2025-05-31 16:36:45,195 - INFO - Base path untuk output: C:\DataSample\output
+2025-05-31 16:36:45,196 - INFO - Format output: EXCEL
+2025-05-31 16:36:45,196 - DEBUG - Mencari nama file yang tersedia untuk C:\DataSample\output_parsed.xlsx
+2025-05-31 16:36:45,196 - DEBUG - File output akan disimpan sebagai: C:\DataSample\output_parsed.xlsx
+2025-05-31 16:36:45,196 - INFO - Memulai ekspor ke Excel: C:\DataSample\output_parsed.xlsx
+2025-05-31 16:36:45,196 - INFO - Memulai ekspor Excel dari C:\DataSample\output.txt
+2025-05-31 16:36:45,196 - DEBUG - Membaca file teks: C:\DataSample\output.txt
+2025-05-31 16:36:45,215 - DEBUG - Ukuran konten: 2400 karakter
+2025-05-31 16:36:45,215 - DEBUG - Jumlah baris dengan tabel markdown: 32
+2025-05-31 16:36:45,216 - DEBUG - Header terdeteksi: ['Tanggal', 'Merek', 'Model', 'Harga (IDR)', 'Sales', 'Kota']
+2025-05-31 16:36:45,216 - DEBUG - Jumlah baris data: 30
+2025-05-31 16:36:45,220 - DEBUG - Header berhasil ditambahkan ke sheet Excel
+2025-05-31 16:36:45,221 - DEBUG - Baris 1: Data biasa: 2024-03-21
+2025-05-31 16:36:45,221 - DEBUG - Baris 1: Data biasa: Suzuki
+2025-05-31 16:36:45,221 - DEBUG - Baris 1: Data biasa: Ertiga
+2025-05-31 16:36:45,221 - DEBUG - Baris 1: Data biasa: 333630402
+2025-05-31 16:36:45,222 - DEBUG - Baris 1: Data biasa: Deni
+2025-05-31 16:36:45,222 - DEBUG - Baris 1: Data biasa: Makassar
+2025-05-31 16:36:45,222 - DEBUG - Baris 2: Data biasa: 2024-04-02
+2025-05-31 16:36:45,222 - DEBUG - Baris 2: Data biasa: Suzuki
+2025-05-31 16:36:45,222 - DEBUG - Baris 2: Data biasa: XL7
+2025-05-31 16:36:45,222 - DEBUG - Baris 2: Data biasa: 261569882
+2025-05-31 16:36:45,223 - DEBUG - Baris 2: Data biasa: Budi
+2025-05-31 16:36:45,223 - DEBUG - Baris 2: Data biasa: Makassar
+2025-05-31 16:36:45,223 - DEBUG - Baris 3: Data biasa: 2024-01-28
+2025-05-31 16:36:45,223 - DEBUG - Baris 3: Data biasa: Suzuki
+2025-05-31 16:36:45,224 - DEBUG - Baris 3: Data biasa: Ertiga
+2025-05-31 16:36:45,224 - DEBUG - Baris 3: Data biasa: 207790255
+2025-05-31 16:36:45,224 - DEBUG - Baris 3: Data biasa: Rina
+2025-05-31 16:36:45,224 - DEBUG - Baris 3: Data biasa: Jakarta
+2025-05-31 16:36:45,225 - DEBUG - Baris 4: Data biasa: 2024-02-07
+2025-05-31 16:36:45,225 - DEBUG - Baris 4: Data biasa: Honda
+2025-05-31 16:36:45,225 - DEBUG - Baris 4: Data biasa: Civic
+2025-05-31 16:36:45,226 - DEBUG - Baris 4: Data biasa: 244479981
+2025-05-31 16:36:45,226 - DEBUG - Baris 4: Data biasa: Rina
+2025-05-31 16:36:45,226 - DEBUG - Baris 4: Data biasa: Bandung
+2025-05-31 16:36:45,226 - DEBUG - Baris 5: Data biasa: 2024-05-26
+2025-05-31 16:36:45,227 - DEBUG - Baris 5: Data biasa: Toyota
+2025-05-31 16:36:45,227 - DEBUG - Baris 5: Data biasa: Yaris
+2025-05-31 16:36:45,227 - DEBUG - Baris 5: Data biasa: 263273824
+2025-05-31 16:36:45,227 - DEBUG - Baris 5: Data biasa: Sari
+2025-05-31 16:36:45,228 - DEBUG - Baris 5: Data biasa: Makassar
+2025-05-31 16:36:45,228 - DEBUG - Baris 6: Data biasa: 2024-02-13
+2025-05-31 16:36:45,228 - DEBUG - Baris 6: Data biasa: Toyota
+2025-05-31 16:36:45,229 - DEBUG - Baris 6: Data biasa: Avanza
+2025-05-31 16:36:45,229 - DEBUG - Baris 6: Data biasa: 375887011
+2025-05-31 16:36:45,229 - DEBUG - Baris 6: Data biasa: Rina
+2025-05-31 16:36:45,229 - DEBUG - Baris 6: Data biasa: Surabaya
+2025-05-31 16:36:45,230 - DEBUG - Baris 7: Data biasa: 2024-01-08
+2025-05-31 16:36:45,230 - DEBUG - Baris 7: Data biasa: Suzuki
+2025-05-31 16:36:45,230 - DEBUG - Baris 7: Data biasa: Ertiga
+2025-05-31 16:36:45,230 - DEBUG - Baris 7: Data biasa: 298955989
+2025-05-31 16:36:45,230 - DEBUG - Baris 7: Data biasa: Budi
+2025-05-31 16:36:45,231 - DEBUG - Baris 7: Data biasa: Medan
+2025-05-31 16:36:45,231 - DEBUG - Baris 8: Data biasa: 2024-04-27
+2025-05-31 16:36:45,231 - DEBUG - Baris 8: Data biasa: Toyota
+2025-05-31 16:36:45,232 - DEBUG - Baris 8: Data biasa: Avanza
+2025-05-31 16:36:45,232 - DEBUG - Baris 8: Data biasa: 264748996
+2025-05-31 16:36:45,232 - DEBUG - Baris 8: Data biasa: Budi
+2025-05-31 16:36:45,232 - DEBUG - Baris 8: Data biasa: Medan
+2025-05-31 16:36:45,233 - DEBUG - Baris 9: Data biasa: 2024-05-17
+2025-05-31 16:36:45,233 - DEBUG - Baris 9: Data biasa: Mitsubishi
+2025-05-31 16:36:45,234 - DEBUG - Baris 9: Data biasa: Xpander
+2025-05-31 16:36:45,234 - DEBUG - Baris 9: Data biasa: 433042745
+2025-05-31 16:36:45,234 - DEBUG - Baris 9: Data biasa: Sari
+2025-05-31 16:36:45,234 - DEBUG - Baris 9: Data biasa: Bandung
+2025-05-31 16:36:45,235 - DEBUG - Baris 10: Data biasa: 2024-03-06
+2025-05-31 16:36:45,235 - DEBUG - Baris 10: Data biasa: Toyota
+2025-05-31 16:36:45,235 - DEBUG - Baris 10: Data biasa: Avanza
+2025-05-31 16:36:45,235 - DEBUG - Baris 10: Data biasa: 329591536
+2025-05-31 16:36:45,236 - DEBUG - Baris 10: Data biasa: Rina
+2025-05-31 16:36:45,237 - DEBUG - Baris 10: Data biasa: Medan
+2025-05-31 16:36:45,237 - DEBUG - Baris 11: Data biasa: 2024-04-10
+2025-05-31 16:36:45,237 - DEBUG - Baris 11: Data biasa: Honda
+2025-05-31 16:36:45,238 - DEBUG - Baris 11: Data biasa: Brio
+2025-05-31 16:36:45,238 - DEBUG - Baris 11: Data biasa: 185553415
+2025-05-31 16:36:45,238 - DEBUG - Baris 11: Data biasa: Deni
+2025-05-31 16:36:45,238 - DEBUG - Baris 11: Data biasa: Makassar
+2025-05-31 16:36:45,238 - DEBUG - Baris 12: Data biasa: 2024-02-05
+2025-05-31 16:36:45,239 - DEBUG - Baris 12: Data biasa: Toyota
+2025-05-31 16:36:45,239 - DEBUG - Baris 12: Data biasa: Innova
+2025-05-31 16:36:45,239 - DEBUG - Baris 12: Data biasa: 374747192
+2025-05-31 16:36:45,239 - DEBUG - Baris 12: Data biasa: Sari
+2025-05-31 16:36:45,239 - DEBUG - Baris 12: Data biasa: Medan
+2025-05-31 16:36:45,239 - DEBUG - Baris 13: Data biasa: 2024-04-29
+2025-05-31 16:36:45,239 - DEBUG - Baris 13: Data biasa: Toyota
+2025-05-31 16:36:45,240 - DEBUG - Baris 13: Data biasa: Avanza
+2025-05-31 16:36:45,240 - DEBUG - Baris 13: Data biasa: 297673528
+2025-05-31 16:36:45,240 - DEBUG - Baris 13: Data biasa: Budi
+2025-05-31 16:36:45,241 - DEBUG - Baris 13: Data biasa: Medan
+2025-05-31 16:36:45,241 - DEBUG - Baris 14: Data biasa: 2024-01-25
+2025-05-31 16:36:45,241 - DEBUG - Baris 14: Data biasa: Suzuki
+2025-05-31 16:36:45,242 - DEBUG - Baris 14: Data biasa: Ignis
+2025-05-31 16:36:45,242 - DEBUG - Baris 14: Data biasa: 315791627
+2025-05-31 16:36:45,242 - DEBUG - Baris 14: Data biasa: Rina
+2025-05-31 16:36:45,242 - DEBUG - Baris 14: Data biasa: Medan
+2025-05-31 16:36:45,243 - DEBUG - Baris 15: Data biasa: 2024-04-28
+2025-05-31 16:36:45,243 - DEBUG - Baris 15: Data biasa: Mitsubishi
+2025-05-31 16:36:45,243 - DEBUG - Baris 15: Data biasa: Pajero
+2025-05-31 16:36:45,244 - DEBUG - Baris 15: Data biasa: 389188053
+2025-05-31 16:36:45,244 - DEBUG - Baris 15: Data biasa: Agus
+2025-05-31 16:36:45,244 - DEBUG - Baris 15: Data biasa: Surabaya
+2025-05-31 16:36:45,245 - DEBUG - Baris 16: Data biasa: 2024-03-29
+2025-05-31 16:36:45,245 - DEBUG - Baris 16: Data biasa: Suzuki
+2025-05-31 16:36:45,245 - DEBUG - Baris 16: Data biasa: Ertiga
+2025-05-31 16:36:45,245 - DEBUG - Baris 16: Data biasa: 272621434
+2025-05-31 16:36:45,246 - DEBUG - Baris 16: Data biasa: Deni
+2025-05-31 16:36:45,246 - DEBUG - Baris 16: Data biasa: Medan
+2025-05-31 16:36:45,246 - DEBUG - Baris 17: Data biasa: 2024-02-07
+2025-05-31 16:36:45,246 - DEBUG - Baris 17: Data biasa: Suzuki
+2025-05-31 16:36:45,247 - DEBUG - Baris 17: Data biasa: XL7
+2025-05-31 16:36:45,247 - DEBUG - Baris 17: Data biasa: 172048903
+2025-05-31 16:36:45,247 - DEBUG - Baris 17: Data biasa: Agus
+2025-05-31 16:36:45,248 - DEBUG - Baris 17: Data biasa: Jakarta
+2025-05-31 16:36:45,248 - DEBUG - Baris 18: Data biasa: 2024-04-11
+2025-05-31 16:36:45,248 - DEBUG - Baris 18: Data biasa: Honda
+2025-05-31 16:36:45,249 - DEBUG - Baris 18: Data biasa: HR-V
+2025-05-31 16:36:45,249 - DEBUG - Baris 18: Data biasa: 285857189
+2025-05-31 16:36:45,249 - DEBUG - Baris 18: Data biasa: Agus
+2025-05-31 16:36:45,249 - DEBUG - Baris 18: Data biasa: Jakarta
+2025-05-31 16:36:45,250 - DEBUG - Baris 19: Data biasa: 2024-05-21
+2025-05-31 16:36:45,250 - DEBUG - Baris 19: Data biasa: Toyota
+2025-05-31 16:36:45,250 - DEBUG - Baris 19: Data biasa: Innova
+2025-05-31 16:36:45,251 - DEBUG - Baris 19: Data biasa: 186830226
+2025-05-31 16:36:45,251 - DEBUG - Baris 19: Data biasa: Rina
+2025-05-31 16:36:45,251 - DEBUG - Baris 19: Data biasa: Bandung
+2025-05-31 16:36:45,252 - DEBUG - Baris 20: Data biasa: 2024-05-06
+2025-05-31 16:36:45,252 - DEBUG - Baris 20: Data biasa: Mitsubishi
+2025-05-31 16:36:45,253 - DEBUG - Baris 20: Data biasa: Pajero
+2025-05-31 16:36:45,254 - DEBUG - Baris 20: Data biasa: 395719864
+2025-05-31 16:36:45,254 - DEBUG - Baris 20: Data biasa: Budi
+2025-05-31 16:36:45,254 - DEBUG - Baris 20: Data biasa: Bandung
+2025-05-31 16:36:45,254 - DEBUG - Baris 21: Data biasa: 2024-01-18
+2025-05-31 16:36:45,254 - DEBUG - Baris 21: Data biasa: Daihatsu
+2025-05-31 16:36:45,254 - DEBUG - Baris 21: Data biasa: Ayla
+2025-05-31 16:36:45,254 - DEBUG - Baris 21: Data biasa: 275724781
+2025-05-31 16:36:45,254 - DEBUG - Baris 21: Data biasa: Agus
+2025-05-31 16:36:45,255 - DEBUG - Baris 21: Data biasa: Bandung
+2025-05-31 16:36:45,255 - DEBUG - Baris 22: Data biasa: 2024-03-20
+2025-05-31 16:36:45,255 - DEBUG - Baris 22: Data biasa: Toyota
+2025-05-31 16:36:45,255 - DEBUG - Baris 22: Data biasa: Avanza
+2025-05-31 16:36:45,255 - DEBUG - Baris 22: Data biasa: 206590429
+2025-05-31 16:36:45,255 - DEBUG - Baris 22: Data biasa: Rina
+2025-05-31 16:36:45,255 - DEBUG - Baris 22: Data biasa: Bandung
+2025-05-31 16:36:45,256 - DEBUG - Baris 23: Data biasa: 2024-05-04
+2025-05-31 16:36:45,256 - DEBUG - Baris 23: Data biasa: Daihatsu
+2025-05-31 16:36:45,257 - DEBUG - Baris 23: Data biasa: Terios
+2025-05-31 16:36:45,257 - DEBUG - Baris 23: Data biasa: 356127449
+2025-05-31 16:36:45,257 - DEBUG - Baris 23: Data biasa: Budi
+2025-05-31 16:36:45,257 - DEBUG - Baris 23: Data biasa: Bandung
+2025-05-31 16:36:45,258 - DEBUG - Baris 24: Data biasa: 2024-05-18
+2025-05-31 16:36:45,258 - DEBUG - Baris 24: Data biasa: Honda
+2025-05-31 16:36:45,259 - DEBUG - Baris 24: Data biasa: Brio
+2025-05-31 16:36:45,259 - DEBUG - Baris 24: Data biasa: 290676143
+2025-05-31 16:36:45,260 - DEBUG - Baris 24: Data biasa: Rina
+2025-05-31 16:36:45,260 - DEBUG - Baris 24: Data biasa: Bandung
+2025-05-31 16:36:45,260 - DEBUG - Baris 25: Data biasa: 2024-05-26
+2025-05-31 16:36:45,260 - DEBUG - Baris 25: Data biasa: Daihatsu
+2025-05-31 16:36:45,261 - DEBUG - Baris 25: Data biasa: Terios
+2025-05-31 16:36:45,261 - DEBUG - Baris 25: Data biasa: 259120291
+2025-05-31 16:36:45,262 - DEBUG - Baris 25: Data biasa: Rina
+2025-05-31 16:36:45,262 - DEBUG - Baris 25: Data biasa: Makassar
+2025-05-31 16:36:45,262 - DEBUG - Baris 26: Data biasa: 2024-04-03
+2025-05-31 16:36:45,262 - DEBUG - Baris 26: Data biasa: Toyota
+2025-05-31 16:36:45,263 - DEBUG - Baris 26: Data biasa: Innova
+2025-05-31 16:36:45,263 - DEBUG - Baris 26: Data biasa: 315409166
+2025-05-31 16:36:45,263 - DEBUG - Baris 26: Data biasa: Budi
+2025-05-31 16:36:45,264 - DEBUG - Baris 26: Data biasa: Jakarta
+2025-05-31 16:36:45,264 - DEBUG - Baris 27: Data biasa: 2024-05-02
+2025-05-31 16:36:45,264 - DEBUG - Baris 27: Data biasa: Mitsubishi
+2025-05-31 16:36:45,264 - DEBUG - Baris 27: Data biasa: Triton
+2025-05-31 16:36:45,264 - DEBUG - Baris 27: Data biasa: 275522863
+2025-05-31 16:36:45,264 - DEBUG - Baris 27: Data biasa: Deni
+2025-05-31 16:36:45,264 - DEBUG - Baris 27: Data biasa: Bandung
+2025-05-31 16:36:45,265 - DEBUG - Baris 28: Data biasa: 2024-05-14
+2025-05-31 16:36:45,265 - DEBUG - Baris 28: Data biasa: Mitsubishi
+2025-05-31 16:36:45,265 - DEBUG - Baris 28: Data biasa: Pajero
+2025-05-31 16:36:45,266 - DEBUG - Baris 28: Data biasa: 154643763
+2025-05-31 16:36:45,266 - DEBUG - Baris 28: Data biasa: Sari
+2025-05-31 16:36:45,266 - DEBUG - Baris 28: Data biasa: Surabaya
+2025-05-31 16:36:45,267 - DEBUG - Baris 29: Data biasa: 2024-05-07
+2025-05-31 16:36:45,267 - DEBUG - Baris 29: Data biasa: Daihatsu
+2025-05-31 16:36:45,267 - DEBUG - Baris 29: Data biasa: Sigra
+2025-05-31 16:36:45,267 - DEBUG - Baris 29: Data biasa: 441757164
+2025-05-31 16:36:45,267 - DEBUG - Baris 29: Data biasa: Agus
+2025-05-31 16:36:45,268 - DEBUG - Baris 29: Data biasa: Makassar
+2025-05-31 16:36:45,268 - DEBUG - Baris 30: Data biasa: 2024-01-15
+2025-05-31 16:36:45,268 - DEBUG - Baris 30: Data biasa: Honda
+2025-05-31 16:36:45,269 - DEBUG - Baris 30: Data biasa: HR-V
+2025-05-31 16:36:45,270 - DEBUG - Baris 30: Data biasa: 181413858
+2025-05-31 16:36:45,271 - DEBUG - Baris 30: Data biasa: Agus
+2025-05-31 16:36:45,271 - DEBUG - Baris 30: Data biasa: Bandung
+2025-05-31 16:36:45,271 - DEBUG - Menyesuaikan lebar kolom...
+2025-05-31 16:36:45,272 - INFO - Menyimpan file Excel ke: C:\DataSample\output_parsed.xlsx
+2025-05-31 16:36:45,368 - INFO - Proses berhasil diselesaikan
+2025-05-31 16:36:45,369 - INFO - Proses selesai dalam 10.06 detik
+2025-05-31 16:36:45,369 - INFO - ==================================================
