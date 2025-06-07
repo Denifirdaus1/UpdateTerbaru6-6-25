@@ -1,12 +1,12 @@
 ﻿using DataWizard.Core.Services;
 using DataWizard.UI.Services;
-using Microsoft.UI; // Diperlukan untuk Colors
-using Microsoft.UI.Composition; // API Komposisi Utama
+using Microsoft.UI;
+using Microsoft.UI.Composition;
 using Microsoft.UI.Text;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Hosting; // Diperlukan untuk ElementCompositionPreview
-using Microsoft.UI.Xaml.Input; // Diperlukan untuk PointerRoutedEventArgs
+using Microsoft.UI.Xaml.Hosting;
+using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Microsoft.UI.Xaml.Shapes;
@@ -15,11 +15,12 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Numerics; // Diperlukan untuk Vector2
+using System.Numerics;
 using System.Threading;
 using System.Threading.Tasks;
+using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage.Pickers;
-using Windows.UI; // Diperlukan untuk Color
+using Windows.UI;
 using Windows.UI.Text;
 using IOPath = System.IO.Path;
 
@@ -31,7 +32,7 @@ namespace DataWizard.UI.Pages
         private readonly string outputTextPath = @"C:\DataSample\hasil_output.txt";
         private Stopwatch _processTimer;
 
-        // --- Variabel untuk Animasi Komposisi (Versi 4 - Hybrid Border) ---
+        // Animation variables
         private Compositor _compositor;
         private ShapeVisual _borderVisual;
         private CompositionLinearGradientBrush _animatedGradientBrush;
@@ -39,7 +40,6 @@ namespace DataWizard.UI.Pages
         private ScalarKeyFrameAnimation _fadeInAnimation;
         private ScalarKeyFrameAnimation _fadeOutAnimation;
         private bool _isAuraInitialized = false;
-        // --------------------------------------------------------------------------
 
         public ChatPage()
         {
@@ -48,9 +48,6 @@ namespace DataWizard.UI.Pages
             LoadUserPreferences();
             _processTimer = new Stopwatch();
 
-            // PERUBAHAN: Menghapus baris ini agar border XAML tetap terlihat
-            // InputFormBorder.BorderBrush = new SolidColorBrush(Colors.Transparent);
-
             var outputDir = IOPath.GetDirectoryName(outputTextPath);
             if (!Directory.Exists(outputDir))
             {
@@ -58,50 +55,40 @@ namespace DataWizard.UI.Pages
             }
         }
 
-        // --- METODE UNTUK ANIMASI GARIS GRADIENT ---
-
         private void InitializeAuraAnimation()
         {
             if (_isAuraInitialized) return;
 
             _compositor = ElementCompositionPreview.GetElementVisual(this).Compositor;
 
-            // 1. Buat ShapeVisual untuk menampung bentuk garis border
             _borderVisual = _compositor.CreateShapeVisual();
             _borderVisual.Size = new Vector2((float)InputFormBorder.ActualWidth, (float)InputFormBorder.ActualHeight);
-            _borderVisual.Opacity = 0.0f; // Awalnya transparan
+            _borderVisual.Opacity = 0.0f;
 
-            // 2. Buat geometri (bentuk) dari border, yaitu rounded rectangle
             var borderGeometry = _compositor.CreateRoundedRectangleGeometry();
             borderGeometry.Size = new Vector2((float)InputFormBorder.ActualWidth, (float)InputFormBorder.ActualHeight);
             borderGeometry.CornerRadius = new Vector2((float)InputFormBorder.CornerRadius.TopLeft);
 
-            // 3. Buat bentuk garis (SpriteShape) menggunakan geometri di atas
             var borderShape = _compositor.CreateSpriteShape(borderGeometry);
-            // Pastikan ketebalan garis sama dengan di XAML untuk transisi mulus
             borderShape.StrokeThickness = (float)InputFormBorder.BorderThickness.Left;
 
-            // 4. Buat brush gradien untuk garis (StrokeBrush)
             _animatedGradientBrush = _compositor.CreateLinearGradientBrush();
             _animatedGradientBrush.StartPoint = new Vector2(0, 0);
-            _animatedGradientBrush.EndPoint = new Vector2(1, 0); // Gradien horizontal
+            _animatedGradientBrush.EndPoint = new Vector2(1, 0);
 
-            // Definisikan warna-warna gradien yang lebih cerah seperti contoh
-            _animatedGradientBrush.ColorStops.Add(_compositor.CreateColorGradientStop(0.0f, Color.FromArgb(255, 255, 122, 0)));   // Oranye
-            _animatedGradientBrush.ColorStops.Add(_compositor.CreateColorGradientStop(0.5f, Color.FromArgb(255, 229, 0, 122)));    // Magenta
-            _animatedGradientBrush.ColorStops.Add(_compositor.CreateColorGradientStop(1.0f, Color.FromArgb(255, 109, 40, 217)));  // Ungu (dari tema Anda)
+            _animatedGradientBrush.ColorStops.Add(_compositor.CreateColorGradientStop(0.0f, Color.FromArgb(255, 255, 122, 0)));
+            _animatedGradientBrush.ColorStops.Add(_compositor.CreateColorGradientStop(0.5f, Color.FromArgb(255, 229, 0, 122)));
+            _animatedGradientBrush.ColorStops.Add(_compositor.CreateColorGradientStop(1.0f, Color.FromArgb(255, 109, 40, 217)));
 
             borderShape.StrokeBrush = _animatedGradientBrush;
             _borderVisual.Shapes.Add(borderShape);
 
-            // 5. Buat animasi untuk membuat gradien "mengalir" (flow)
             _flowAnimation = _compositor.CreateVector2KeyFrameAnimation();
-            _flowAnimation.InsertKeyFrame(0.0f, new Vector2(-1, 0)); // Mulai dari luar kiri
-            _flowAnimation.InsertKeyFrame(1.0f, new Vector2(1, 0));  // Selesai di luar kanan
+            _flowAnimation.InsertKeyFrame(0.0f, new Vector2(-1, 0));
+            _flowAnimation.InsertKeyFrame(1.0f, new Vector2(1, 0));
             _flowAnimation.Duration = TimeSpan.FromSeconds(3);
             _flowAnimation.IterationBehavior = AnimationIterationBehavior.Forever;
 
-            // 6. Buat animasi untuk fade-in dan fade-out
             _fadeInAnimation = _compositor.CreateScalarKeyFrameAnimation();
             _fadeInAnimation.InsertKeyFrame(1.0f, 1.0f);
             _fadeInAnimation.Duration = TimeSpan.FromMilliseconds(400);
@@ -110,10 +97,8 @@ namespace DataWizard.UI.Pages
             _fadeOutAnimation.InsertKeyFrame(1.0f, 0.0f);
             _fadeOutAnimation.Duration = TimeSpan.FromMilliseconds(400);
 
-            // 7. Terapkan visual ke XAML Border
             ElementCompositionPreview.SetElementChildVisual(InputFormBorder, _borderVisual);
 
-            // 8. Atur agar ukuran visual selalu pas dengan border jika ukuran window berubah
             InputFormBorder.SizeChanged += (s, e) =>
             {
                 if (_borderVisual != null)
@@ -129,26 +114,16 @@ namespace DataWizard.UI.Pages
         private void InputFormBorder_PointerEntered(object sender, PointerRoutedEventArgs e)
         {
             InitializeAuraAnimation();
-
-            // Mulai animasi fade-in pada visual garis
             _borderVisual.StartAnimation("Opacity", _fadeInAnimation);
-
-            // Mulai animasi aliran gradien
             _animatedGradientBrush.StartAnimation("Offset", _flowAnimation);
         }
 
         private void InputFormBorder_PointerExited(object sender, PointerRoutedEventArgs e)
         {
             if (!_isAuraInitialized) return;
-
-            // Mulai animasi fade-out
             _borderVisual.StartAnimation("Opacity", _fadeOutAnimation);
-
-            // Hentikan animasi aliran untuk menghemat resource saat tidak terlihat
             _animatedGradientBrush.StopAnimation("Offset");
         }
-
-        // --- KODE LAMA ANDA (TIDAK BERUBAH) ---
 
         private void LoadUserPreferences()
         {
@@ -204,7 +179,11 @@ namespace DataWizard.UI.Pages
             if (file != null)
             {
                 selectedFilePath = file.Path;
-                OutputBox.Text = $"File dipilih: {selectedFilePath}";
+
+                // Update the UI to show selected file
+                SelectedFileText.Text = IOPath.GetFileName(file.Path);
+                SelectedFileDisplay.Visibility = Visibility.Visible;
+
                 return true;
             }
             return false;
@@ -213,6 +192,12 @@ namespace DataWizard.UI.Pages
         private async void SelectFileButton_Click(object sender, RoutedEventArgs e)
         {
             await SelectFileAsync();
+        }
+
+        private void RemoveFileButton_Click(object sender, RoutedEventArgs e)
+        {
+            selectedFilePath = "";
+            SelectedFileDisplay.Visibility = Visibility.Collapsed;
         }
 
         private async void RunButton_Click(object sender, RoutedEventArgs e)
@@ -246,9 +231,16 @@ namespace DataWizard.UI.Pages
             {
                 _processTimer.Restart();
 
+                // Hide welcome and show preview
                 WelcomePanel.Visibility = Visibility.Collapsed;
-                AnswerBox.Visibility = Visibility.Visible;
-                OutputBox.Text = "Memproses data... Mohon tunggu.";
+                PreviewWelcomeState.Visibility = Visibility.Collapsed;
+                PreviewContentContainer.Visibility = Visibility.Visible;
+                ProcessingBadge.Visibility = Visibility.Visible;
+                CopyPreviewButton.Visibility = Visibility.Collapsed;
+                SavePreviewButton.Visibility = Visibility.Collapsed;
+                PreviewFooter.Visibility = Visibility.Visible;
+
+                PreviewContent.Text = "Memproses data... Mohon tunggu.";
                 Debug.WriteLine($"Starting Python process with mode: {mode}, format: {outputFormat}");
 
                 string result = await PythonRunner.RunPythonScriptAsync(
@@ -258,9 +250,12 @@ namespace DataWizard.UI.Pages
                     outputFormat,
                     mode
                 );
+
                 _processTimer.Stop();
                 int processingTimeMs = (int)_processTimer.ElapsedMilliseconds;
                 Debug.WriteLine($"Python process completed in {processingTimeMs}ms with result: {result}");
+
+                ProcessingBadge.Visibility = Visibility.Collapsed;
 
                 if (result == "Success" && File.Exists(outputTextPath))
                 {
@@ -269,26 +264,34 @@ namespace DataWizard.UI.Pages
 
                     if (hasil.StartsWith("[ERROR]") || hasil.StartsWith("[GAGAL]"))
                     {
-                        OutputBox.Text = $"Proses gagal: {hasil}";
+                        PreviewContent.Text = $"Proses gagal: {hasil}";
                         Debug.WriteLine($"Process failed with error: {hasil}");
                         return;
                     }
 
-                    OutputBox.Text = hasil;
+                    PreviewContent.Text = hasil;
+                    CopyPreviewButton.Visibility = Visibility.Visible;
+                    SavePreviewButton.Visibility = Visibility.Visible;
+
+                    // Update processing time and word count
+                    ProcessingTimeText.Text = $"Processing time: {processingTimeMs}ms";
+                    WordCountText.Text = $"Words: {hasil.Split(' ', StringSplitOptions.RemoveEmptyEntries).Length}";
+
                     await ProcessOutputFiles(outputFormat, processingTimeMs);
                 }
                 else
                 {
-                    OutputBox.Text = $"❌ Gagal: {result}";
+                    PreviewContent.Text = $"❌ Gagal: {result}";
                     Debug.WriteLine($"Process failed with result: {result}");
                 }
             }
             catch (Exception ex)
             {
                 _processTimer.Stop();
+                ProcessingBadge.Visibility = Visibility.Collapsed;
                 Debug.WriteLine($"Error in RunButton_Click: {ex}");
                 string errorMessage = $"Terjadi kesalahan aplikasi:\n{ex.Message}";
-                OutputBox.Text = errorMessage;
+                PreviewContent.Text = errorMessage;
                 await ShowDialogAsync("Application Error", errorMessage);
             }
         }
@@ -310,12 +313,17 @@ namespace DataWizard.UI.Pages
                         outputFilePath = parsedExcelPath;
                         outputFileName = IOPath.GetFileName(parsedExcelPath);
                         ResultFileText.Text = outputFileName;
-                        OutputBox.Text += $"\n\n✅ File hasil parsing tersimpan di:\n{parsedExcelPath}";
+
+                        // Show file info
+                        FileInfoDisplay.Visibility = Visibility.Visible;
+                        FileInfoTitle.Text = "Excel File Created";
+                        FileInfoDetails.Text = $"File: {outputFileName} | Size: {new FileInfo(outputFilePath).Length / 1024} KB";
+
                         Debug.WriteLine($"Excel file created successfully: {outputFileName}");
                     }
                     else
                     {
-                        OutputBox.Text += "\n\n⚠️ File hasil parsing Excel tidak ditemukan.";
+                        PreviewContent.Text += "\n\n⚠️ File hasil parsing Excel tidak ditemukan.";
                         Debug.WriteLine("Excel file not found after processing");
                     }
                 }
@@ -332,12 +340,17 @@ namespace DataWizard.UI.Pages
                         outputFilePath = wordPath;
                         outputFileName = IOPath.GetFileName(wordPath);
                         ResultFileText.Text = outputFileName;
-                        OutputBox.Text += $"\n\n✅ File Word berhasil dibuat: {outputFileName}";
+
+                        // Show file info
+                        FileInfoDisplay.Visibility = Visibility.Visible;
+                        FileInfoTitle.Text = "Word Document Created";
+                        FileInfoDetails.Text = $"File: {outputFileName} | Size: {new FileInfo(outputFilePath).Length / 1024} KB";
+
                         Debug.WriteLine($"Word file created successfully: {outputFileName}");
                     }
                     else
                     {
-                        OutputBox.Text += "\n\n⚠️ File Word tidak ditemukan";
+                        PreviewContent.Text += "\n\n⚠️ File Word tidak ditemukan";
                         Debug.WriteLine("Word file not found after processing");
                     }
                 }
@@ -357,12 +370,14 @@ namespace DataWizard.UI.Pages
         private async void FileToFileButton_Click(object sender, RoutedEventArgs e)
         {
             ModeBox.SelectedIndex = 0;
+            FileInputControls.Visibility = Visibility.Visible;
             await SelectFileAsync();
         }
 
         private async void PromptToFileButton_Click(object sender, RoutedEventArgs e)
         {
             ModeBox.SelectedIndex = 2;
+            FileInputControls.Visibility = Visibility.Visible;
             await ShowDialogAsync("Reminder", "Please select your output format (Word or Excel) before proceeding.");
             PromptBox.Focus(FocusState.Programmatic);
         }
@@ -370,6 +385,7 @@ namespace DataWizard.UI.Pages
         private async void OcrToFileButton_Click(object sender, RoutedEventArgs e)
         {
             ModeBox.SelectedIndex = 1;
+            FileInputControls.Visibility = Visibility.Visible;
             await SelectFileAsync();
         }
 
@@ -396,15 +412,22 @@ namespace DataWizard.UI.Pages
         {
             PromptBox.Text = "";
             selectedFilePath = "";
-            OutputBox.Text = "";
+            SelectedFileDisplay.Visibility = Visibility.Collapsed;
+            FileInputControls.Visibility = Visibility.Collapsed;
+
             OutputFormatBox.SelectedIndex = 0;
             ModeBox.SelectedIndex = 0;
 
             WordFormatButton.Style = Resources["DefaultFormatButtonStyle"] as Style;
             ExcelFormatButton.Style = Resources["DefaultFormatButtonStyle"] as Style;
 
+            // Reset preview to welcome state
             WelcomePanel.Visibility = Visibility.Visible;
-            AnswerBox.Visibility = Visibility.Collapsed;
+            PreviewWelcomeState.Visibility = Visibility.Visible;
+            PreviewContentContainer.Visibility = Visibility.Collapsed;
+            ProcessingBadge.Visibility = Visibility.Collapsed;
+            PreviewFooter.Visibility = Visibility.Collapsed;
+            FileInfoDisplay.Visibility = Visibility.Collapsed;
         }
 
         private void HomeButton_Click(object sender, RoutedEventArgs e)
@@ -423,12 +446,32 @@ namespace DataWizard.UI.Pages
             await SelectFileAsync();
         }
 
+        private async void CopyPreviewButton_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var dataPackage = new DataPackage();
+                dataPackage.SetText(PreviewContent.Text);
+                Clipboard.SetContent(dataPackage);
+
+                // Show brief confirmation
+                PreviewTitle.Text = "Preview - Copied!";
+                await Task.Delay(2000);
+                PreviewTitle.Text = "Preview";
+            }
+            catch (Exception ex)
+            {
+                await ShowDialogAsync("Error", $"Failed to copy to clipboard: {ex.Message}");
+            }
+        }
+
         private async void SaveFileButton_Click(object sender, RoutedEventArgs e)
         {
             var savePicker = new FileSavePicker();
             savePicker.SuggestedStartLocation = PickerLocationId.DocumentsLibrary;
             savePicker.FileTypeChoices.Add("Excel Files", new List<string>() { ".xlsx" });
             savePicker.FileTypeChoices.Add("Word Documents", new List<string>() { ".docx" });
+            savePicker.FileTypeChoices.Add("Text Files", new List<string>() { ".txt" });
             savePicker.SuggestedFileName = ResultFileText.Text;
 
             var hwnd = WinRT.Interop.WindowNative.GetWindowHandle(App.Window);
@@ -439,8 +482,40 @@ namespace DataWizard.UI.Pages
             {
                 try
                 {
-                    OutputBox.Text = $"File saved to: {file.Path}";
-                    Debug.WriteLine($"File saved locally: {file.Path}");
+                    // Copy the generated file to the selected location
+                    string sourcePath = "";
+                    string outputFormat = (OutputFormatBox.SelectedItem as ComboBoxItem)?.Content?.ToString().ToLower() ?? "txt";
+
+                    if (outputFormat == "excel")
+                    {
+                        sourcePath = PythonRunner.GetParsedExcelPath(outputTextPath);
+                    }
+                    else if (outputFormat == "word")
+                    {
+                        string basePath = IOPath.GetDirectoryName(outputTextPath);
+                        string baseName = IOPath.GetFileNameWithoutExtension(outputTextPath);
+                        sourcePath = IOPath.Combine(basePath, $"{baseName}_output.docx");
+                    }
+                    else
+                    {
+                        sourcePath = outputTextPath;
+                    }
+
+                    if (File.Exists(sourcePath))
+                    {
+                        File.Copy(sourcePath, file.Path, true);
+
+                        // Show brief confirmation
+                        FileInfoTitle.Text = "File Saved Successfully";
+                        await Task.Delay(2000);
+                        FileInfoTitle.Text = "Output File Created";
+
+                        Debug.WriteLine($"File saved to: {file.Path}");
+                    }
+                    else
+                    {
+                        await ShowDialogAsync("Error", "Source file not found. Please generate the output first.");
+                    }
                 }
                 catch (Exception ex)
                 {
